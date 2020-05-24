@@ -1,0 +1,8 @@
+//指定项目名字，默认是目录名称
+rootProject.name='AndroidGradleExample'
+//导入 app 工程
+include ':app'
+include ':library'
+
+//修改项目名称
+//project(":library").name = 'lib'

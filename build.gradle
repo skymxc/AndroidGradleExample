@@ -1,0 +1,41 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+//顶层配置文件，这里添加的配置可选择配置到所有子项目
+
+//配置脚本，主要是配置 Gradle 脚本执行使用的依赖。
+buildscript {
+
+    //使用的插件所在的仓库，例如 Android 插件就放在了 jcenter 上
+    repositories {
+        google()
+        jcenter()
+        
+    }
+
+    //使用的插件依赖
+    dependencies {
+        // Android 构建工具
+        classpath 'com.android.tools.build:gradle:3.6.3'
+        
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+        //注意：不要子项目的依赖放在这里，各自项目的依赖应该放在各自项目的 build.gralde 配置脚本里。
+        //这里的配置会应用到所有项目。
+    }
+}
+
+//会遍历所有子项目，这里相当于给所有项目都配置了仓库了。
+allprojects {
+
+    //给所有项目配置仓库
+    repositories {
+        google()
+        jcenter()
+        
+    }
+}
+
+// 配置 clean 任务，删除根目录的 build 目录。
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

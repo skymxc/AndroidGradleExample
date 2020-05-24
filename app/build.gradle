@@ -1,0 +1,51 @@
+//使用 Android 应用插件
+apply plugin: 'com.android.application'
+// android 是 Android插件提供的扩展类型。 Android 工程的配置都可以在这里配置。
+android {
+
+    //编译的SDK 版本
+    compileSdkVersion 29
+    //构建工具版本
+    buildToolsVersion "29.0.2"
+
+    //默认配置，它是一个 ProductFlavor
+    defaultConfig {
+        //应用程序ID，创建时的包名，可以更改。
+        applicationId "cn.sintoon.androidgradleexample"
+        //最小支持的SDK 版本
+        minSdkVersion 19
+        //目标 SDK 版本
+        targetSdkVersion 29
+        //应用版本代码，一般用于控制APP的升级。
+        versionCode 1
+        //应用版本名称，用户可以看到。
+        versionName "1.0"
+
+        //配置单元测试使用的 runner
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    //构建类型
+    buildTypes {
+        //发布类型
+        release {
+            //是否启用混淆
+            minifyEnabled false
+            //proguard 规则文件;
+            //getDefaultProguardFile 是 Android 扩展的一个方法，可以获取你的 Android SDK 目录下默认的 proguard 配置文件。
+            //在 android-sdk/tools/proguard/目录下，文件名就是传入的 proguard-android-optimize.txt
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+//使用的依赖
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
