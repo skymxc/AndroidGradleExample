@@ -11,7 +11,7 @@ android {
     //默认配置，它是一个 ProductFlavor
     defaultConfig {
         //应用程序ID，创建时的包名，可以更改。
-        applicationId "cn.sintoon.androidgradleexample"
+        applicationId "com.skymxc.example"
         //最小支持的SDK 版本
         minSdkVersion 19
         //目标 SDK 版本
@@ -23,6 +23,14 @@ android {
 
         //配置单元测试使用的 runner
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+                CHANNEL_NAME:"default"
+        ]
+
+        //实践 自定义 BuildConfig
+        buildConfigField "String","WEBURL","\"https://github.com/skymxc\""
+        buildConfigField "int","type","0"
     }
 
     //构建类型
@@ -30,12 +38,105 @@ android {
         //发布类型
         release {
             //是否启用混淆
-            minifyEnabled false
+            minifyEnabled true
+            //移除未引用的资源，需要和 minifyEnabled true 配合使用
+            shrinkResources true
             //proguard 规则文件;
             //getDefaultProguardFile 是 Android 扩展的一个方法，可以获取你的 Android SDK 目录下默认的 proguard 配置文件。
             //在 android-sdk/tools/proguard/目录下，文件名就是传入的 proguard-android-optimize.txt
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String","WEBURL","\"https://www.cnblogs.com/skymxc/\""
         }
+
+        debug {
+            applicationIdSuffix ".debug"
+            //是否启用混淆
+            minifyEnabled true
+            //移除未引用的资源，需要和 minifyEnabled true 配合使用
+            shrinkResources true
+        }
+    }
+
+
+    //签名密钥库配置
+    signingConfigs {
+        countryside {
+            storeFile file("myreleasekey.keystore")
+            storePassword "password"
+            keyAlias "MyReleaseKey"
+            keyPassword "password"
+        }
+
+        city {
+            storeFile file("myreleasekey.keystore")
+            storePassword "password"
+            keyAlias "MyReleaseKey"
+            keyPassword "password"
+        }
+        release {
+            storePassword '123456'
+            keyAlias 'gradle'
+            keyPassword '123456'
+            storeFile file('keystore')
+        }
+    }
+
+
+    //变种维度
+    flavorDimensions "domicile","channel"
+
+
+    //产品变种
+    productFlavors{
+
+        //农村 变种
+        countryside {
+            //指定所属维度
+            dimension "domicile"
+            versionNameSuffix '-countryside'
+            signingConfig signingConfigs.countryside
+            buildConfigField "int","type","2"
+        }
+
+        //城市 变种
+        city {
+            dimension "domicile"
+            versionNameSuffix '-city'
+            signingConfig signingConfigs.city
+            buildConfigField "int","type","1"
+        }
+
+//        为了实践动态配置 AndroidManifest 文件
+        huawei {
+            dimension "channel"
+            manifestPlaceholders = [
+                    "CHANNEL_NAME":"华为"
+            ]
+        }
+        mi {
+            dimension "channel"
+            manifestPlaceholders = [
+                    CHANNEL_NAME:"小米"
+            ]
+        }
+
+    }
+
+//    配置 APK 名称
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "Example_${variant.flavorName}_${variant.versionCode}_${variant.versionName}.apk"
+        }
+    }
+
+    //Java 编译选项配置
+    compileOptions {
+        // Java 源代码的编码
+        encoding = 'utf-8'
+        //Java 源代码编译级别
+        sourceCompatibility JavaVersion.VERSION_1_8
+        //生成的 Java 字节码版本
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
 }
@@ -43,9 +144,22 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation files('libs/biometric.jar')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+//    cityImplementation project(":library")
+
+
+    // banana 给 city 变种
+    cityImplementation files("libs/library-banana.aar")
+    // apple 给 countryside 变种
+    countrysideImplementation files("libs/library-apple.aar")
 }
+
+

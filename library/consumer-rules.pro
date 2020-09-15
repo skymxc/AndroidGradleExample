@@ -1,0 +1,1 @@
+# 在这里配置库自己的 Proguard 规则，这里的规则在打包 AAR 时会被一并打包进 proguard.txt 文件。在 app 工程编译的时候会自动使用库里 proguard.txt 里的规则。

@@ -11,6 +11,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //配置库自己的 混淆规则，打包时会被打包进 AAR 包里，在 使用这个库的项目里会自动应用库里的混淆规则。
         consumerProguardFiles 'consumer-rules.pro'
     }
 

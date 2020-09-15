@@ -1,0 +1,9 @@
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@mipmap/more,@mipmap/saw"
+    tools:discard="@mipmap/*_2"
+    tools:shrinkMode="safe">
+<!--保留 more saw文件-->
+<!--    舍弃 share_2 文件-->
+<!--    严格模式-->
+</resources>
